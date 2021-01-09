@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator</title>
+    <script src="./create.js" defer></script>
+    <!-- chrome,firefox and opera -->
+    <meta name="theme-color" content="black">
+    <!-- safari/ios -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- windows phone -->
+    <meta name="msapplication-navbutton-color" content="black">
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body{
+        height: 100vh;
+        display: flex;
+        flex-flow: column;
+        justify-content: space-evenly;
+        align-items: center;
+        background: #333;
+    }
+    button{
+        border: none;
+        border-radius: 5px;
+        outline: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        box-shadow: 0px 0px 30px 0px #222;
+    }
+    audio{
+        outline: none;
+    }
+</style>
+<body>
+    <button>Start Recording</button>
+    <button>Stop Recording</button>
+    <audio autoplay controls/>
+</body>
+</html>

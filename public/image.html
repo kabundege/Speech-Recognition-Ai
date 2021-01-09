@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js" ></script>
+    <title>Document</title>
+</head>
+<body>
+    <img id="image" src='http://localhost:4000/joker.png' alt=""/>
+    <script>
+        let classifier;
+        function modelLoaded() {
+            console.log('Model Loaded!');        
+            classifier.classify(document.getElementById('image'), (err, results) => {
+                if(err){
+                    console.error(err)
+                }else{
+                    console.log(results);
+                }
+            });
+        }
+
+        classifier = ml5.imageClassifier('MobileNet', modelLoaded);
+
+        // When the model is loaded
+
+        // Make a prediction with a selected image
+
+    </script>
+    
+</body>
+</html>

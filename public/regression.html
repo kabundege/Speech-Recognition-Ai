@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js" ></script>
+    <title>Document</title>
+</head>
+<body>
+    <video autoplay></video>
+    <input type="range" max="5" min="1"/>
+    <button id="mask">mask</button>
+    <button id="train">train</button>
+    <button id="fet">fetch</button>
+    <script>
+        let MobileNet,Predictor,Video;
+
+        function modelLoaded(){
+            console.log('model has loaded!');
+        }
+        function videoReady(){
+            console.log('video has loaded');
+        }
+        function results(err, results) {
+                if(err){
+                    console.error(err)
+                }else{
+                    console.log(results);
+                    Predictor.predict(results);
+                }
+            };
+        ///getting the stream
+        MobileNet = ml5.featureExtractor('MobileNet',modelLoaded);
+        Predictor = MobileNet.regression(document.querySelector('video'), videoReady);
+
+        document.querySelector("#mask").onclick = e => {
+            Predictor.addImage(document.querySelector('input').value)
+        }
+
+        document.querySelector("#train").onclick = e => {
+            Predictor.train(loss=>{
+                if(loss === null) {
+                    console.log('train complete') 
+                    Predictor.predict(results);
+                    //save the trained library
+                    Predictor.save()
+                }else{
+                    console.log(loss);
+
+                }
+            })
+        }
+        document.querySelector("#fet").onclick = e => {
+                    Predictor.classify(results);
+        }
+
+        navigator.mediaDevices.getUserMedia({video:true})
+        .then(stream=>{
+            const tag = document.querySelector('video')
+            tag.srcObject = stream;
+            Video = tag;
+            console.log(tag);
+        })
+
+    </script>
+</body>
+</html>

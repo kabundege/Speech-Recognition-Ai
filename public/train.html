@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js" ></script>
+    <title>Document</title>
+</head>
+<body>
+    <video autoplay></video>
+    <button id="mask">mask</button>
+    <button id="me">me</button>
+    <button id="train">train</button>
+    <button id="fet">fetch</button>
+    <script>
+        let MobileNet,Classifier,Video;
+
+        function modelLoaded(){
+            console.log('model has loaded!');
+        }
+        function videoReady(){
+            console.log('video has loaded');
+        }
+        function results(err, results) {
+                if(err){
+                    console.error(err)
+                }else{
+                    console.log(results);
+                }
+            };
+        ///getting the stream
+        MobileNet = ml5.featureExtractor('MobileNet',modelLoaded);
+        Classifier = MobileNet.classification(document.querySelector('video'), videoReady);
+
+        document.querySelector("#mask").onclick = e => {
+            Classifier.addImage('gapfuka munwa')
+        }
+        document.querySelector("#me").onclick = e => {
+            Classifier.addImage('kabundege')
+        }
+        document.querySelector("#train").onclick = e => {
+            Classifier.train(loss=>{
+                if(loss === null) {
+                    console.log('train complete') 
+                    Classifier.classify(results);
+                    //save the trained library
+                    Classifier.save()
+                }else{
+                    console.log(loss);
+                }
+            })
+        }
+        document.querySelector("#fet").onclick = e => {
+                    Classifier.classify(results);
+        }
+
+        navigator.mediaDevices.getUserMedia({video:true})
+        .then(stream=>{
+            const tag = document.querySelector('video')
+            tag.srcObject = stream;
+            Video = tag;
+            console.log(tag);
+        })
+
+    </script>
+</body>
+</html>
